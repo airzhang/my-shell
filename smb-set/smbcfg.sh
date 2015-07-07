@@ -58,7 +58,7 @@ log file = /var/log/samba/log.%m
 max log size = 50
 security = user
 passdb backend = tdbsam
-smb passwd file = /etc/samba/smbpasswd
+passdb backend = smbpasswd:/etc/samba/smbpasswd
 unix password sync = yes
 passwd program = /usr/bin/passwd %u
 
