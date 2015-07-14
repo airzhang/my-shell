@@ -32,7 +32,7 @@ useradmin(){
 	fi
 }
 
-if [ `gluster v info | grep -oP '(?<=Status:).*'`x != "Started"x ];then
+if [ `gemcli --cp=ok v info | grep -oP '(?<=Status:).*'`x != "Started"x ];then
 	echo "No volumes available !!"
 	exit 1
 fi
@@ -58,7 +58,7 @@ log file = /var/log/samba/log.%m
 max log size = 50
 security = user
 passdb backend = tdbsam
-passdb backend = smbpasswd:/etc/samba/smbpasswd
+#passdb backend = smbpasswd:/etc/samba/smbpasswd
 unix password sync = yes
 passwd program = /usr/bin/passwd %u
 
@@ -70,6 +70,7 @@ sed -i '/\[global\]/a\\tconfig file = '"${confpath}"'' /etc/samba/smb.conf
 
 if grep -w "path = ${path}$" ${confpath};then
 	useradmin
+	chmod 777 ${path}
 else
 	if [ ! -e ${path} ];then
 		mkdir -p "${path}"
@@ -94,3 +95,4 @@ EOF
 fi
 
 service smb restart
+
